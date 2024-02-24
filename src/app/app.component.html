@@ -1,0 +1,104 @@
+<form [formGroup]="reactiveForm">
+  <button type="button" class="btn btn-primary" (click)="addSchool()">
+    Add School
+  </button>
+
+  <div formArrayName="schoolName">
+    <div
+      class="school-container"
+      *ngFor="
+        let school of reactiveForm.get('schoolName')['controls'];
+        let i = index
+      "
+    >
+      <div [formGroupName]="i">
+        <button
+          type="button"
+          class="btn btn-danger btn-school"
+          (click)="removeSchool(i)"
+        >
+          Remove
+        </button>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="School Name"
+            formControlName="name"
+          />
+          <div *ngIf="reactiveForm.get('schoolName')['controls'][i].dirty">DIRTY</div>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="addTeacher(i)">
+          Add Teacher
+        </button>
+        <div formArrayName="teacherName">
+          <div
+            class="school-container"
+            *ngFor="
+              let teacher of reactiveForm
+                .get('schoolName')
+                ['controls'][i].get('teacherName')['controls'];
+              let j = index
+            "
+          >
+            <div [formGroupName]="j">
+              <button
+                type="button"
+                class="btn btn-danger btn-school"
+                (click)="removeTeacher(i, j)"
+              >
+                Remove
+              </button>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="School Name"
+                  formControlName="name"
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addStudent(i, j)"
+              >
+                Add Student
+              </button>
+              <div formArrayName="studentName">
+                <div
+                  class="school-container"
+                  *ngFor="
+                    let teacher of reactiveForm
+                      .get('schoolName')
+                      ['controls'][i].get('teacherName')
+                      ['controls'][j].get('studentName')['controls'];
+                    let k = index
+                  "
+                >
+                  <div [formGroupName]="k">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-school"
+                      (click)="removeStudent(i, j, k)"
+                    >
+                      Remove
+                    </button>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Student Name"
+                        formControlName="name"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" (click)="onSubmit()">Submit</button>
+</form>
